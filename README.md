@@ -1,4 +1,4 @@
-# OpenAPI SDK generator - Api Client Base
+# OpenAPI SDK generator - API Client Base
 
 This library provides the base classes and interfaces for the generated clients made by [api-client-generator](https://github.com/DoclerLabs/api-client-generator).
 
