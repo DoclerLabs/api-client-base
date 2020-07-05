@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.4/phpunit.xsd"
 		bootstrap="./vendor/autoload.php"
 		colors="true"
 		convertErrorsToExceptions="true"
@@ -20,7 +19,6 @@
 		</whitelist>
 	</filter>
 	<logging>
-		<log type="coverage-html" target="./test-reports"/>
-		<log type="coverage-text" target="php://stdout"/>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>
 </phpunit>

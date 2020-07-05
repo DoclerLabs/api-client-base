@@ -17,6 +17,7 @@
         "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
+        "php-coveralls/php-coveralls": "^2.2",
         "phpunit/phpunit": "^6.5"
     },
     "autoload": {
