@@ -2,6 +2,12 @@
 
 This library provides the base classes and interfaces for the generated clients made by [api-client-generator](https://github.com/DoclerLabs/api-client-generator).
 
+[![Latest Stable Version](https://poser.pugx.org/DoclerLabs/api-client-base/v/stable)](https://packagist.org/packages/DoclerLabs/api-client-base)
+[![License](https://poser.pugx.org/DoclerLabs/api-client-base/license)](https://packagist.org/packages/DoclerLabs/api-client-base)
+[![Build Status](https://travis-ci.org/DoclerLabs/api-client-base.svg?branch=master)](https://travis-ci.org/DoclerLabs/api-client-base)
+[![Coverage Status](https://coveralls.io/repos/github/DoclerLabs/api-client-base/badge.svg?branch=master)](https://coveralls.io/github/DoclerLabs/api-client-base?branch=master)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FDoclerLabs%2Fapi-client-base.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FDoclerLabs%2Fapi-client-base?ref=badge_shield)
+
 ## Description
 Base classes of the generated client are:
 
