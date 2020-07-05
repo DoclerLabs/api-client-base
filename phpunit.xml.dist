@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		bootstrap="./vendor/autoload.php"
+		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.5/phpunit.xsd"
 		colors="true"
+		beStrictAboutOutputDuringTests="false"
+		beStrictAboutTestsThatDoNotTestAnything="true"
+		verbose="true"
+		bootstrap="vendor/autoload.php"
 		convertErrorsToExceptions="true"
 		convertNoticesToExceptions="true"
 		convertWarningsToExceptions="true"
+		convertDeprecationsToExceptions="false"
 		stopOnFailure="false">
 	<testsuites>
 		<testsuite name="unit">
@@ -19,6 +24,6 @@
 		</whitelist>
 	</filter>
 	<logging>
-		<log type="coverage-clover" target="build/logs/clover.xml"/>
+		<log type="coverage-clover" target="test-reports/clover.xml"/>
 	</logging>
 </phpunit>
