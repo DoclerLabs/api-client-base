@@ -8,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 
 class JsonTest extends TestCase
 {
-    public function testGetLastErrorCodeIsZeroAfterInit(): void
+    public function testGetLastErrorCodeIsZeroAfterInit()
     {
         $this->assertEquals(0, Json::getLastErrorCode());
     }
 
-    public function testGetLastErrorMessageIsNoErrorsAfterInit(): void
+    public function testGetLastErrorMessageIsNoErrorsAfterInit()
     {
         $this->assertEquals('No errors', Json::getLastErrorMessage());
     }
@@ -27,11 +27,11 @@ class JsonTest extends TestCase
     public function testGetMessageForExistingErrorCodeGivesBackSpecificErrorMessage(
         int $errorCode,
         string $expectedMessage
-    ): void {
+    ) {
         $this->assertEquals($expectedMessage, Json::getErrorMessage($errorCode));
     }
 
-    public function testGetMessageReturnsUnknownErrorForUnknownErrorCode(): void
+    public function testGetMessageReturnsUnknownErrorForUnknownErrorCode()
     {
         $this->assertEquals('Unknown error', Json::getErrorMessage(-1));
     }
@@ -44,7 +44,7 @@ class JsonTest extends TestCase
      *
      * @throws JsonException
      */
-    public function testEncodeSuccessfullyWorksForValidInput($decoded, string $encoded): void
+    public function testEncodeSuccessfullyWorksForValidInput($decoded, string $encoded)
     {
         $this->assertEquals($encoded, Json::encode($decoded));
         $this->assertEquals(0, Json::getLastErrorCode());
@@ -57,7 +57,7 @@ class JsonTest extends TestCase
      *
      * @dataProvider provideInvalidData
      */
-    public function testEncodeThrowsJsonExceptionForInvalidInput($invalidInput): void
+    public function testEncodeThrowsJsonExceptionForInvalidInput($invalidInput)
     {
         $this->expectException(JsonException::class);
 
@@ -72,7 +72,7 @@ class JsonTest extends TestCase
      *
      * @throws JsonException
      */
-    public function testDecodeSuccessfullyWorksForValidInput($decoded, string $encoded): void
+    public function testDecodeSuccessfullyWorksForValidInput($decoded, string $encoded)
     {
         $this->assertEquals($decoded, Json::decode($encoded, true));
         $this->assertEquals(0, Json::getLastErrorCode());
@@ -83,7 +83,7 @@ class JsonTest extends TestCase
      *
      * @dataProvider provideInvalidData
      */
-    public function testDecodeThrowsJsonExceptionForInvalidInput($invalidInput): void
+    public function testDecodeThrowsJsonExceptionForInvalidInput($invalidInput)
     {
         $this->expectException(JsonException::class);
 
@@ -93,7 +93,7 @@ class JsonTest extends TestCase
     /**
      * Decode should keep big int as string if options given.
      */
-    public function testDecodeWithJsonBigIntAsStringOptions(): void
+    public function testDecodeWithJsonBigIntAsStringOptions()
     {
         $decoded = Json::decode('{"bigint": 2057556871673413376}', true, 512, JSON_BIGINT_AS_STRING);
 
