@@ -2,6 +2,7 @@
     "name": "docler-labs/api-client-base",
     "description": "SDK Generator - API Client Base",
     "type": "library",
+    "license": "MIT",
     "keywords": [
         "rest",
         "api",
