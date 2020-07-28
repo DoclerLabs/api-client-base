@@ -3,7 +3,6 @@
 namespace DoclerLabs\ApiClientBase\Test\Unit\Response;
 
 use DoclerLabs\ApiClientBase\Response\ResponseData;
-use phpDocumentor\Reflection\Types\Void_;
 use PHPUnit\Framework\TestCase;
 
 /**
