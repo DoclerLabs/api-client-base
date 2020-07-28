@@ -2,18 +2,30 @@
 
 namespace DoclerLabs\ApiClientBase\Response;
 
-class ResponseData
+class Response
 {
+    /** @var int */
+    private $statusCode;
+
     /** @var array */
     private $payload;
 
     /** @var array */
     private $headers;
 
-    public function __construct(array $payload = [], array $headers = [])
+    public function __construct(int $statusCode, array $payload = [], array $headers = [])
     {
-        $this->payload = $payload;
-        $this->headers = $headers;
+        $this->statusCode = $statusCode;
+        $this->payload    = $payload;
+        $this->headers    = $headers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStatusCode(): int
+    {
+        return $this->statusCode;
     }
 
     /**

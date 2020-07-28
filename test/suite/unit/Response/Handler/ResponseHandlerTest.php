@@ -8,7 +8,7 @@ use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Response\Handler\ResponseHandler;
-use DoclerLabs\ApiClientBase\Response\ResponseData;
+use DoclerLabs\ApiClientBase\Response\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;

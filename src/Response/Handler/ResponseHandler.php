@@ -9,7 +9,7 @@ use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Json\Json;
 use DoclerLabs\ApiClientBase\Json\JsonException;
-use DoclerLabs\ApiClientBase\Response\ResponseData;
+use DoclerLabs\ApiClientBase\Response\Response;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseHandler implements ResponseHandlerInterface
@@ -19,14 +19,14 @@ class ResponseHandler implements ResponseHandlerInterface
     /**
      * @param ResponseInterface $response
      *
-     * @return ResponseData
+     * @return Response
      *
      * @throws NotFoundResponseException
      * @throws BadRequestResponseException
      * @throws UnexpectedResponseException
      * @throws JsonException
      */
-    public function handle(ResponseInterface $response): ResponseData
+    public function handle(ResponseInterface $response): Response
     {
         $statusCode = $response->getStatusCode();
         $body       = $response->getBody();
@@ -34,7 +34,7 @@ class ResponseHandler implements ResponseHandlerInterface
 
         if ($statusCode >= 200 && $statusCode < 300) {
             if ($body === null || (int)$body->getSize() === 0) {
-                return new ResponseData([], $headers);
+                return new Response($statusCode, [], $headers);
             }
 
             $payload = Json::decode($body->__toString(), true, 512, self::JSON_OPTIONS);
@@ -43,7 +43,7 @@ class ResponseHandler implements ResponseHandlerInterface
                 $payload = $payload['data'];
             }
 
-            return new ResponseData($payload, $headers);
+            return new Response($statusCode, $payload, $headers);
         }
 
         $errorPayload = '';
