@@ -20,25 +20,16 @@ class Response
         $this->headers    = $headers;
     }
 
-    /**
-     * @return array
-     */
     public function getStatusCode(): int
     {
         return $this->statusCode;
     }
 
-    /**
-     * @return array
-     */
     public function getPayload(): array
     {
         return $this->payload;
     }
 
-    /**
-     * @return array
-     */
     public function getHeaders(): array
     {
         return $this->headers;

@@ -6,5 +6,5 @@ use DoclerLabs\ApiClientBase\Response\Response;
 
 interface ResponseMapperInterface
 {
-    public function map(Response $responseData);
+    public function map(Response $response);
 }
