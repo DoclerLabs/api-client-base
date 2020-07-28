@@ -2,9 +2,10 @@
 
 namespace DoclerLabs\ApiClientBase\Response\Handler;
 
+use DoclerLabs\ApiClientBase\Response\ResponseData;
 use Psr\Http\Message\ResponseInterface;
 
 interface ResponseHandlerInterface
 {
-    public function handle(ResponseInterface $response): array;
+    public function handle(ResponseInterface $response): ResponseData;
 }

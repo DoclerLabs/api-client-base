@@ -8,6 +8,7 @@ use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Response\Handler\ResponseHandler;
+use DoclerLabs\ApiClientBase\Response\ResponseData;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -24,29 +25,36 @@ class ResponseHandlerTest extends TestCase
     {
         $handler = new ResponseHandler();
 
-        $testStatusCode = 200;
-        $testRawBody    = '{"test-key":"test-value"}';
-        $testBodySize   = 10;
-        $expectedBody   = ['test-key' => 'test-value'];
+        $testStatusCode  = 200;
+        $testRawBody     = '{"test-key":"test-value"}';
+        $testHeaders     = ['X-Foo' => 'bar'];
+        $testBodySize    = 10;
+        $expectedBody    = ['test-key' => 'test-value'];
+        $expectedHeaders = $testHeaders;
 
         $stream = $this->createMock(StreamInterface::class);
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('getSize')
             ->willReturn($testBodySize);
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('__tostring')
             ->willReturn($testRawBody);
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getBody')
             ->willReturn($stream);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getStatusCode')
             ->willReturn($testStatusCode);
+        $response->expects(self::once())
+            ->method('getHeaders')
+            ->willReturn($testHeaders);
 
         $result = $handler->handle($response);
-        $this->assertEquals($expectedBody, $result);
+
+        self::assertEquals($expectedBody, $result->getPayload());
+        self::assertEquals($expectedHeaders, $result->getHeaders());
     }
 
     /**
@@ -56,29 +64,36 @@ class ResponseHandlerTest extends TestCase
     {
         $handler = new ResponseHandler();
 
-        $testStatusCode = 200;
-        $testRawBody    = '{"data":{"test-key":"test-value"}}';
-        $testBodySize   = 10;
-        $expectedBody   = ['test-key' => 'test-value'];
+        $testStatusCode  = 200;
+        $testRawBody     = '{"data":{"test-key":"test-value"}}';
+        $testHeaders     = ['X-Foo' => 'bar'];
+        $testBodySize    = 10;
+        $expectedBody    = ['test-key' => 'test-value'];
+        $expectedHeaders = $testHeaders;
 
         $stream = $this->createMock(StreamInterface::class);
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('getSize')
             ->willReturn($testBodySize);
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('__tostring')
             ->willReturn($testRawBody);
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getBody')
             ->willReturn($stream);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getStatusCode')
             ->willReturn($testStatusCode);
+        $response->expects(self::once())
+            ->method('getHeaders')
+            ->willReturn($testHeaders);
 
         $result = $handler->handle($response);
-        $this->assertEquals($expectedBody, $result);
+
+        self::assertEquals($expectedBody, $result->getPayload());
+        self::assertEquals($expectedHeaders, $result->getHeaders());
     }
 
     /**
@@ -91,15 +106,20 @@ class ResponseHandlerTest extends TestCase
         $testStatusCode = 200;
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getBody')
             ->willReturn(null);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getStatusCode')
             ->willReturn($testStatusCode);
+        $response->expects(self::once())
+            ->method('getHeaders')
+            ->willReturn([]);
 
         $result = $handler->handle($response);
-        $this->assertEquals([], $result);
+
+        self::assertEquals([], $result->getPayload());
+        self::assertEquals([], $result->getHeaders());
     }
 
     /**
@@ -113,20 +133,25 @@ class ResponseHandlerTest extends TestCase
         $testBodySize   = 0;
 
         $stream = $this->createMock(StreamInterface::class);
-        $stream->expects($this->once())
+        $stream->expects(self::once())
             ->method('getSize')
             ->willReturn($testBodySize);
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getBody')
             ->willReturn($stream);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getStatusCode')
             ->willReturn($testStatusCode);
+        $response->expects(self::once())
+            ->method('getHeaders')
+            ->willReturn([]);
 
         $result = $handler->handle($response);
-        $this->assertEquals([], $result);
+
+        self::assertEquals([], $result->getPayload());
+        self::assertEquals([], $result->getHeaders());
     }
 
     /**
@@ -138,16 +163,16 @@ class ResponseHandlerTest extends TestCase
         $handler = new ResponseHandler();
 
         $response = $this->createMock(ResponseInterface::class);
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getStatusCode')
             ->willReturn($testStatusCode);
 
         $body = $this->createMock(StreamInterface::class);
-        $body->expects($this->once())
+        $body->expects(self::once())
             ->method('__toString')
             ->willReturn('');
 
-        $response->expects($this->once())
+        $response->expects(self::once())
             ->method('getBody')
             ->willReturn($body);
 

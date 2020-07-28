@@ -2,7 +2,9 @@
 
 namespace DoclerLabs\ApiClientBase\Response\Mapper;
 
+use DoclerLabs\ApiClientBase\Response\ResponseData;
+
 interface ResponseMapperInterface
 {
-    public function map(array $response);
+    public function map(ResponseData $responseData);
 }
