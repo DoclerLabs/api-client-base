@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 class ResponseDataTest extends TestCase
 {
     /**
+     * @covers ::__construct
      * @covers ::getHeaders
      * @covers ::getPayload
      */
@@ -23,6 +24,7 @@ class ResponseDataTest extends TestCase
     }
 
     /**
+     * @covers ::__construct
      * @covers ::getHeaders
      * @covers ::getPayload
      */
