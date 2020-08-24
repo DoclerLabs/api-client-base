@@ -60,6 +60,45 @@ class ResponseHandlerTest extends TestCase
     /**
      * @covers ::handle
      */
+    public function testResponseWithDataAndExtraFields()
+    {
+        $handler = new ResponseHandler();
+
+        $testStatusCode  = 200;
+        $testRawBody     = '{"data":{"test-key":"test-value"},"total":1}';
+        $testHeaders     = ['X-Foo' => 'bar'];
+        $testBodySize    = 10;
+        $expectedBody    = ['data' => ['test-key' => 'test-value'], 'total' => 1];
+        $expectedHeaders = $testHeaders;
+
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->expects(self::once())
+            ->method('getSize')
+            ->willReturn($testBodySize);
+        $stream->expects(self::once())
+            ->method('__tostring')
+            ->willReturn($testRawBody);
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response->expects(self::once())
+            ->method('getBody')
+            ->willReturn($stream);
+        $response->expects(self::once())
+            ->method('getStatusCode')
+            ->willReturn($testStatusCode);
+        $response->expects(self::once())
+            ->method('getHeaders')
+            ->willReturn($testHeaders);
+
+        $result = $handler->handle($response);
+
+        self::assertEquals($expectedBody, $result->getPayload());
+        self::assertEquals($expectedHeaders, $result->getHeaders());
+    }
+
+    /**
+     * @covers ::handle
+     */
     public function testResponseWithData()
     {
         $handler = new ResponseHandler();

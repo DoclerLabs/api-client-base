@@ -39,7 +39,7 @@ class ResponseHandler implements ResponseHandlerInterface
 
             $payload = Json::decode($body->__toString(), true, 512, self::JSON_OPTIONS);
 
-            if (isset($payload['data'])) {
+            if (isset($payload['data']) && count(array_keys($payload)) === 1) {
                 $payload = $payload['data'];
             }
 
