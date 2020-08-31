@@ -20,6 +20,7 @@ class ResponseHandlerTest extends TestCase
 {
     /**
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testResponse()
     {
@@ -59,6 +60,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testResponseWithDataAndExtraFields()
     {
@@ -98,6 +100,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testResponseWithData()
     {
@@ -137,6 +140,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testResponseEmpty()
     {
@@ -163,6 +167,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testResponseEmptyWhenBodySizeIsEmpty()
     {
@@ -196,6 +201,7 @@ class ResponseHandlerTest extends TestCase
     /**
      * @dataProvider exceptionsDataProvider
      * @covers ::handle
+     * @covers ::isResponseBodyEmpty
      */
     public function testHttpError(int $testStatusCode, string $exceptionClassName)
     {
