@@ -11,6 +11,7 @@ use DoclerLabs\ApiClientBase\Json\Json;
 use DoclerLabs\ApiClientBase\Json\JsonException;
 use DoclerLabs\ApiClientBase\Response\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class ResponseHandler implements ResponseHandlerInterface
 {
@@ -28,45 +29,47 @@ class ResponseHandler implements ResponseHandlerInterface
      */
     public function handle(ResponseInterface $response): Response
     {
-        $statusCode = $response->getStatusCode();
-        $body       = $response->getBody();
-        $headers    = $response->getHeaders();
+        $statusCode          = $response->getStatusCode();
+        $body                = $response->getBody();
+        $headers             = $response->getHeaders();
+        $isResponseBodyEmpty = $this->isResponseBodyEmpty($body);
+        $responseBody        = '';
 
-        if ($statusCode >= 200 && $statusCode < 300) {
-            if ($body === null || (int)$body->getSize() === 0) {
-                return new Response($statusCode, [], $headers);
-            }
-
-            $payload = Json::decode($body->__toString(), true, 512, self::JSON_OPTIONS);
-
-            if (isset($payload['data']) && count(array_keys($payload)) === 1) {
-                $payload = $payload['data'];
-            }
-
-            return new Response($statusCode, $payload, $headers);
+        if (!$isResponseBodyEmpty) {
+            $responseBody = (string)$body;
         }
 
-        $errorPayload = '';
-        if ($body !== null) {
-            $errorPayload = (string)$body;
+        if ($statusCode >= 200 && $statusCode < 300) {
+            if ($isResponseBodyEmpty) {
+                return new Response($statusCode, $headers);
+            }
+
+            $decodedPayload = Json::decode($responseBody, true, 512, self::JSON_OPTIONS);
+
+            return new Response($statusCode, $headers, $decodedPayload);
         }
 
         if ($statusCode === 400) {
-            throw new BadRequestResponseException($errorPayload);
+            throw new BadRequestResponseException($responseBody);
         }
 
         if ($statusCode === 401) {
-            throw new UnauthorizedResponseException($errorPayload);
+            throw new UnauthorizedResponseException($responseBody);
         }
 
         if ($statusCode === 403) {
-            throw new ForbiddenResponseException($errorPayload);
+            throw new ForbiddenResponseException($responseBody);
         }
 
         if ($statusCode === 404) {
-            throw new NotFoundResponseException($errorPayload);
+            throw new NotFoundResponseException($responseBody);
         }
 
-        throw new UnexpectedResponseException($statusCode, $errorPayload);
+        throw new UnexpectedResponseException($statusCode, $responseBody);
+    }
+
+    private function isResponseBodyEmpty(StreamInterface $responseBody = null): bool
+    {
+        return $responseBody === null || (int)$responseBody->getSize() === 0;
     }
 }
