@@ -8,16 +8,16 @@ class Response
     private $statusCode;
 
     /** @var array */
-    private $payload;
-
-    /** @var array */
     private $headers;
 
-    public function __construct(int $statusCode, array $payload = [], array $headers = [])
+    /** @var array */
+    private $payload;
+
+    public function __construct(int $statusCode, array $headers = [], $payload = null)
     {
         $this->statusCode = $statusCode;
-        $this->payload    = $payload;
         $this->headers    = $headers;
+        $this->payload    = $payload;
     }
 
     public function getStatusCode(): int
@@ -25,13 +25,13 @@ class Response
         return $this->statusCode;
     }
 
-    public function getPayload(): array
-    {
-        return $this->payload;
-    }
-
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    public function getPayload()
+    {
+        return $this->payload;
     }
 }

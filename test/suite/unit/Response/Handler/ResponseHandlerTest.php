@@ -107,7 +107,7 @@ class ResponseHandlerTest extends TestCase
         $testRawBody     = '{"data":{"test-key":"test-value"}}';
         $testHeaders     = ['X-Foo' => 'bar'];
         $testBodySize    = 10;
-        $expectedBody    = ['test-key' => 'test-value'];
+        $expectedBody    = ['data' => ['test-key' => 'test-value']];
         $expectedHeaders = $testHeaders;
 
         $stream = $this->createMock(StreamInterface::class);
@@ -131,8 +131,8 @@ class ResponseHandlerTest extends TestCase
 
         $result = $handler->handle($response);
 
-        self::assertEquals($expectedBody, $result->getPayload());
         self::assertEquals($expectedHeaders, $result->getHeaders());
+        self::assertEquals($expectedBody, $result->getPayload());
     }
 
     /**
@@ -157,8 +157,8 @@ class ResponseHandlerTest extends TestCase
 
         $result = $handler->handle($response);
 
-        self::assertEquals([], $result->getPayload());
         self::assertEquals([], $result->getHeaders());
+        self::assertNull($result->getPayload());
     }
 
     /**
@@ -189,8 +189,8 @@ class ResponseHandlerTest extends TestCase
 
         $result = $handler->handle($response);
 
-        self::assertEquals([], $result->getPayload());
         self::assertEquals([], $result->getHeaders());
+        self::assertNull($result->getPayload());
     }
 
     /**
@@ -208,8 +208,12 @@ class ResponseHandlerTest extends TestCase
 
         $body = $this->createMock(StreamInterface::class);
         $body->expects(self::once())
+            ->method('getSize')
+            ->willReturn(20);
+
+        $body->expects(self::once())
             ->method('__toString')
-            ->willReturn('');
+            ->willReturn(json_encode(['error' => 'something went wrong']));
 
         $response->expects(self::once())
             ->method('getBody')
