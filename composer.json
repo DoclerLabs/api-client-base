@@ -1,6 +1,6 @@
 {
     "name": "docler-labs/api-client-base",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "SDK Generator - API Client Base",
     "type": "library",
     "license": "MIT",
