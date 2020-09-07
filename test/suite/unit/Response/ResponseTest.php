@@ -35,7 +35,7 @@ class ResponseTest extends TestCase
     {
         $body         = ['foo'];
         $headers      = ['bar'];
-        $responseData = new Response(2000, $headers, $body);
+        $responseData = new Response(2000, $body, $headers);
 
         self::assertSame(2000, $responseData->getStatusCode());
         self::assertSame($headers, $responseData->getHeaders());

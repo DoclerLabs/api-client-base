@@ -41,12 +41,12 @@ class ResponseHandler implements ResponseHandlerInterface
 
         if ($statusCode >= 200 && $statusCode < 300) {
             if ($isResponseBodyEmpty) {
-                return new Response($statusCode, $headers);
+                return new Response($statusCode, null, $headers);
             }
 
             $decodedPayload = Json::decode($responseBody, true, 512, self::JSON_OPTIONS);
 
-            return new Response($statusCode, $headers, $decodedPayload);
+            return new Response($statusCode, $decodedPayload, $headers);
         }
 
         if ($statusCode === 400) {
