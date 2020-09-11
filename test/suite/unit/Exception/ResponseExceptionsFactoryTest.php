@@ -6,28 +6,28 @@ use DoclerLabs\ApiClientBase\Exception\BadRequestResponseException;
 use DoclerLabs\ApiClientBase\Exception\ForbiddenResponseException;
 use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
 use DoclerLabs\ApiClientBase\Exception\PaymentRequiredResponseException;
-use DoclerLabs\ApiClientBase\Exception\ResponseExceptionsPool;
+use DoclerLabs\ApiClientBase\Exception\ResponseExceptionFactory;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \DoclerLabs\ApiClientBase\Exception\ResponseExceptionsPool
+ * @coversDefaultClass \DoclerLabs\ApiClientBase\Exception\ResponseExceptionFactory
  */
-class ResponseExceptionsPoolTest extends TestCase
+class ResponseExceptionsFactoryTest extends TestCase
 {
     /**
      * @dataProvider exceptionsDataProvider
      * @covers ::__construct
-     * @covers ::getException
+     * @covers ::create
      */
-    public function testGetException(int $statusCode, string $body, string $expectedExceptionClass)
+    public function testCreate(int $statusCode, string $body, string $expectedExceptionClass)
     {
-        $sut = new ResponseExceptionsPool();
+        $sut = new ResponseExceptionFactory();
 
         $this->expectException($expectedExceptionClass);
 
-        throw $sut->getException($statusCode, $body);
+        throw $sut->create($statusCode, $body);
     }
 
     public function exceptionsDataProvider(): array
