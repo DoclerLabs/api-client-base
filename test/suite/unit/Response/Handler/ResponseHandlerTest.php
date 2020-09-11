@@ -201,6 +201,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @dataProvider exceptionsDataProvider
+     * @covers ::__construct
      * @covers ::handle
      * @covers ::isResponseBodyEmpty
      */
