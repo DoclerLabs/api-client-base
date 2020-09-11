@@ -196,6 +196,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @dataProvider exceptionsDataProvider
+     * @covers ::__construct
      * @covers ::handle
      */
     public function testHttpError(int $testStatusCode, string $exceptionClassName)
