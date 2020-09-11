@@ -4,13 +4,15 @@ namespace DoclerLabs\ApiClientBase\Exception;
 
 class BadRequestResponseException extends UnexpectedResponseException
 {
+    const STATUS_CODE = 400;
+
     public function __construct(string $serializedErrors = '')
     {
-        parent::__construct(400, $serializedErrors);
+        parent::__construct(self::STATUS_CODE, $serializedErrors);
     }
 
     public function getStatusCode(): int
     {
-        return 400;
+        return self::STATUS_CODE;
     }
 }

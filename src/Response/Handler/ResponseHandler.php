@@ -5,6 +5,8 @@ namespace DoclerLabs\ApiClientBase\Response\Handler;
 use DoclerLabs\ApiClientBase\Exception\BadRequestResponseException;
 use DoclerLabs\ApiClientBase\Exception\ForbiddenResponseException;
 use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
+use DoclerLabs\ApiClientBase\Exception\PaymentRequiredResponseException;
+use DoclerLabs\ApiClientBase\Exception\ResponseExceptionsPool;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Json\Json;
@@ -16,13 +18,24 @@ class ResponseHandler implements ResponseHandlerInterface
 {
     const JSON_OPTIONS = JSON_PRESERVE_ZERO_FRACTION + JSON_BIGINT_AS_STRING;
 
+    /** @var ResponseExceptionsPool */
+    private $responseExceptionsPool;
+
+    public function __construct()
+    {
+        $this->responseExceptionsPool = new ResponseExceptionsPool();
+    }
+
     /**
      * @param ResponseInterface $response
      *
      * @return Response
      *
-     * @throws NotFoundResponseException
      * @throws BadRequestResponseException
+     * @throws UnauthorizedResponseException
+     * @throws PaymentRequiredResponseException
+     * @throws ForbiddenResponseException
+     * @throws NotFoundResponseException
      * @throws UnexpectedResponseException
      * @throws JsonException
      */
@@ -51,22 +64,6 @@ class ResponseHandler implements ResponseHandlerInterface
             $errorPayload = (string)$body;
         }
 
-        if ($statusCode === 400) {
-            throw new BadRequestResponseException($errorPayload);
-        }
-
-        if ($statusCode === 401) {
-            throw new UnauthorizedResponseException($errorPayload);
-        }
-
-        if ($statusCode === 403) {
-            throw new ForbiddenResponseException($errorPayload);
-        }
-
-        if ($statusCode === 404) {
-            throw new NotFoundResponseException($errorPayload);
-        }
-
-        throw new UnexpectedResponseException($statusCode, $errorPayload);
+        throw $this->responseExceptionsPool->getException($statusCode, $errorPayload);
     }
 }

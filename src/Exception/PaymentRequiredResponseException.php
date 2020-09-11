@@ -2,9 +2,9 @@
 
 namespace DoclerLabs\ApiClientBase\Exception;
 
-class UnauthorizedResponseException extends UnexpectedResponseException
+class PaymentRequiredResponseException extends UnexpectedResponseException
 {
-    const STATUS_CODE = 401;
+    const STATUS_CODE = 402;
 
     public function __construct(string $serializedErrors = '')
     {
