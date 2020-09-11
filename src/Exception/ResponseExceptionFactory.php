@@ -2,7 +2,7 @@
 
 namespace DoclerLabs\ApiClientBase\Exception;
 
-class ResponseExceptionsPool
+class ResponseExceptionFactory
 {
     /** @var string[] */
     private $responseExceptions;
@@ -18,7 +18,7 @@ class ResponseExceptionsPool
         ];
     }
 
-    public function getException(int $statusCode, string $responseBody): UnexpectedResponseException
+    public function create(int $statusCode, string $responseBody): UnexpectedResponseException
     {
         if (isset($this->responseExceptions[$statusCode])) {
             return new $this->responseExceptions[$statusCode]($responseBody);

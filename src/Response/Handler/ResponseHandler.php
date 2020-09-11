@@ -6,7 +6,7 @@ use DoclerLabs\ApiClientBase\Exception\BadRequestResponseException;
 use DoclerLabs\ApiClientBase\Exception\ForbiddenResponseException;
 use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
 use DoclerLabs\ApiClientBase\Exception\PaymentRequiredResponseException;
-use DoclerLabs\ApiClientBase\Exception\ResponseExceptionsPool;
+use DoclerLabs\ApiClientBase\Exception\ResponseExceptionFactory;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Json\Json;
@@ -18,12 +18,12 @@ class ResponseHandler implements ResponseHandlerInterface
 {
     const JSON_OPTIONS = JSON_PRESERVE_ZERO_FRACTION + JSON_BIGINT_AS_STRING;
 
-    /** @var ResponseExceptionsPool */
-    private $responseExceptionsPool;
+    /** @var ResponseExceptionFactory */
+    private $responseExceptionsFactory;
 
     public function __construct()
     {
-        $this->responseExceptionsPool = new ResponseExceptionsPool();
+        $this->responseExceptionsFactory = new ResponseExceptionFactory();
     }
 
     /**
@@ -64,6 +64,6 @@ class ResponseHandler implements ResponseHandlerInterface
             $errorPayload = (string)$body;
         }
 
-        throw $this->responseExceptionsPool->getException($statusCode, $errorPayload);
+        throw $this->responseExceptionsFactory->create($statusCode, $errorPayload);
     }
 }
