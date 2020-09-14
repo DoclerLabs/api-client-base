@@ -4,13 +4,15 @@ namespace DoclerLabs\ApiClientBase\Exception;
 
 class ForbiddenResponseException extends UnexpectedResponseException
 {
+    const STATUS_CODE = 403;
+
     public function __construct(string $serializedErrors = '')
     {
-        parent::__construct(403, $serializedErrors);
+        parent::__construct(self::STATUS_CODE, $serializedErrors);
     }
 
     public function getStatusCode(): int
     {
-        return 403;
+        return self::STATUS_CODE;
     }
 }

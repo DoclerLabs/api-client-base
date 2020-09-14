@@ -5,6 +5,7 @@ namespace DoclerLabs\ApiClientBase\Test\Unit\Response\Handler;
 use DoclerLabs\ApiClientBase\Exception\BadRequestResponseException;
 use DoclerLabs\ApiClientBase\Exception\ForbiddenResponseException;
 use DoclerLabs\ApiClientBase\Exception\NotFoundResponseException;
+use DoclerLabs\ApiClientBase\Exception\PaymentRequiredResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnauthorizedResponseException;
 use DoclerLabs\ApiClientBase\Exception\UnexpectedResponseException;
 use DoclerLabs\ApiClientBase\Response\Handler\ResponseHandler;
@@ -200,6 +201,7 @@ class ResponseHandlerTest extends TestCase
 
     /**
      * @dataProvider exceptionsDataProvider
+     * @covers ::__construct
      * @covers ::handle
      * @covers ::isResponseBodyEmpty
      */
@@ -234,6 +236,7 @@ class ResponseHandlerTest extends TestCase
         return [
             [400, BadRequestResponseException::class],
             [401, UnauthorizedResponseException::class],
+            [402, PaymentRequiredResponseException::class],
             [403, ForbiddenResponseException::class],
             [404, NotFoundResponseException::class],
             [500, UnexpectedResponseException::class],
